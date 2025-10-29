@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="MiCADangelo: Fine-Grained Reconstruction of Constrained CAD Models from 3D Scans.">
+  <meta name="keywords" content="picasso, cad, sketch">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiCADangelo: Fine-Grained Reconstruction of Constrained CAD Models from 3D Scans</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
+  <!-- <script>
+     window.dataLayer = window.dataLayer || []; 
+  
+     function gtag() { 
+       dataLayer.push(arguments); 
+     }
+  
+     gtag('js', new Date());
+  
+     gtag('config', 'G-PYVRSFMDRL');
+   </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png">
+
+  <style>
+      .custom-font {
+          font-family: "Courier New", monospace;
+      }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  
+</head>
+
+<body>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://cvi2.uni.lu">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Related Papers
+          </a>
+          <div class="navbar-dropdown">
+            
+              <a class="navbar-item" href="https://arxiv.org/pdf/2412.13810">
+                CAD-Assistant: Tool-Augmented VLLMs as Generic CAD Task Solvers
+              </a>
+            
+              <a class="navbar-item" href="https://arxiv.org/pdf/2412.14042">
+                CAD-Recode: Reverse Engineering CAD Code from Point Cloudss
+              </a>
+            
+              <a class="navbar-item" href="https://arxiv.org/pdf/2410.22857">
+                DAVINCI: A Single-Stage Architecture for Constrained CAD Sketch Inference
+              </a>
+            
+              <a class="navbar-item" href="https://arxiv.org/pdf/2412.14042">
+                PICASSO: A Feed-Forward Framework for Parametric Inference of CAD Sketches via Rendering Self-Supervision
+              </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="hero">
+    <div class="hero body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">MiCADangelo: Fine-Grained Reconstruction of Constrained CAD Models from 3D Scans</h1>
+            <div class="is-size-5 publication-authors">
+              
+                <span class="author-block">
+                  <a href="https://askaradeniz.github.io">Ahmet Serdar Karadeniz</a><sup>1</sup>
+                </span>
+              
+                <span class="author-block">
+                  <a href="https://dimitrismallis.github.io/">Dimitrios Mallis</a><sup>1</sup>
+                </span>
+              
+                <span class="author-block">
+                  <a href="https://github.com/filapro">Danila Rukhovic</a><sup>1</sup>
+                </span>
+              
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=VepvFBkAAAAJ&hl=en&oi=ao">Kseniya Cherenkova</a><sup>1, 2</sup>
+                </span>
+              
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=K3EWusMAAAAJ&hl=en&oi=ao">Anis Kacem</a><sup>1</sup>
+                </span>
+              
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=WBmJVSkAAAAJ&hl=en&oi=ao">Djamila Aouada</a><sup>1</sup>
+                </span>
+              
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              
+                <span class="author-block"><sup>1</sup>SnT, University of Luxembourg</span>
+              
+                <span class="author-block"><sup>2</sup>Artec3D</span>
+              
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                
+                  <span class="link-block">
+                    <a href="https://www.arxiv.org/pdf/2510.23429" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+  </section>
+
+    <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Section. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Accepted at NeurIPS'25</h2>
+          <div class="content has-text-centered">
+            <div class="columns is-centered">
+              <div class="column is-half">
+                <img src="./static/images/neurips.svg" alt="NeurIPS 2025" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        
+            
+              <img src="./static/images/teaser.png" alt="Embedded image">
+            
+            <h2 class="subtitle has-text-centered">MiCADangelo is a novel framework for CAD reverse-engineering that mimics human design workflows. It analyzes 3D scans via 2D cross-sections to detect sketch planes, predict constrained parametric sketches and optimize extrusions. </h2>
+        
+        </h2>
+      </div>
+    </div>
+  </section> 
+
+
+  <!-- <section class="hero is-light is-small">
+    <div class="hero-body">
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/steve.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/chair-tp.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/shiba.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/fullbody.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-blueshirt">
+            <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/blueshirt.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-mask">
+            <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/mask.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-coffee">
+            <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/coffee.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-toby">
+            <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/toby2.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+
+
+  
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Section. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <!-- <h2 class="title is-3">Introduction</h2> -->
+          
+            <h2 class="title is-3">Introduction</h2>
+          
+          <div class="block content has-text-justified">
+            
+              <p>In this work, we propose MiCADangelo, a solution for automating CAD reverse engineering by emulating the way human designers approach the task. As illustrated in the bottom part of the above figure, MiCADangelo begins by analyzing the input scan through a series of 2D cross-sectional slices and predicting key slices to serve as sketch planes. For each selected plane, closed loops are extracted from the cross-section and converted into raster images, which are used to predict both the 2D parametric curves and associated CAD sketch constraints. These constrained sketches are then extruded via an optimization process that leverages the local mesh geometry around each loop. The resulting extruded parts are ultimately merged to produce a structured, fully parametric CAD model.</p>
+              <div class="block center-media">
+                
+              </div>
+            
+              <p><p>MiCADangelo offers the advantage of preserving fine-grained geometric details of the input scan while generating fully parametric sketch-extrude sequences, including CAD constraints—an aspect largely unexplored in 3D CAD reverse engineering. The main contributions of this work can be summarized as follows:</p><ol><li>We introduce a real-world CAD reverse engineering-inspired approach that can effectively reconstruct fully parametric CAD models from 3D scans while preserving fine-grained geometric details.</li><li>To the best of our knowledge, this is the first approach capable of reconstructing CAD models from 3D scans while incorporating sketch constraints.</li><li>We conduct comprehensive experiments on publicly available benchmarks and demonstrate that our method outperforms existing state-of-the-art techniques in CAD reverse engineering.</li></ol></p>
+              <div class="block center-media">
+                
+              </div>
+            
+            
+          </div>
+          
+        </div>
+      </div>
+      <!--/ Section. -->
+
+      <!-- Paper video. -->
+      <!-- <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Video</h2>
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0" frameborder="0"
+              allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Paper video. -->
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Section. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <!-- <h2 class="title is-3">Method</h2> -->
+          
+            <h2 class="title is-3">Method</h2>
+          
+          <div class="block content has-text-justified">
+            
+              <p></p>
+              <div class="block center-media">
+                
+                  
+                    
+                      <img src="./static/images/method.png" alt="Embedded image">
+                    
+                  
+                
+              </div>
+            
+              <p><center> <b> Overview of the method. MiCADangelo comprises three main components: Sketch Plane Detection, Sketch Parameterization, and Differentiable Extrusion. The generated constrained sketches, together with the optimized extrusion parameters, are assembled into the final parametric CAD model. </b> </center></p>
+              <div class="block center-media">
+                
+              </div>
+            
+              <p><b> Sketch Plane Detection </b> MiCADangelo samples N equally-spaced slicing planes along the x-, y-, and z-axes, producing a set of 2D cross-section slices. These slices are then converted into raster images and supplied with contextual embeddings before being passed into a sketch plane detection network that identifies the most relevant slices.</p>
+              <div class="block center-media">
+                
+              </div>
+            
+              <p><b> Constrained Sketch Parameterization </b> Once the key cross-section slices are identified, the next step is to predict the sketch primitives and their associated constraints from these slices to obtain the corresponding constrained sketches. To achieve this, each key crosssection slice is decomposed into separate closed loops. Each loop is converted into a raster image and passed to a network for constrained sketch parameterization with the goal of inferring the corresponding sketch primitives and constraints.</p>
+              <div class="block center-media">
+                
+              </div>
+            
+              <p><b> Differentiable Extrusion Optimization </b> After obtaining the constrained sketches, a differentiable extrusion optimization is performed for each sketch w.r.t the input geometry of the mesh to find out the corresponding extrusion parameters. Finally, the obtained extruded elements are assembled together to obtain the final CAD model.</p>
+              <div class="block center-media">
+                
+              </div>
+            
+            
+          </div>
+          
+        </div>
+      </div>
+      <!--/ Section. -->
+
+      <!-- Paper video. -->
+      <!-- <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Video</h2>
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0" frameborder="0"
+              allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Paper video. -->
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Section. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <!-- <h2 class="title is-3">Experiments</h2> -->
+          
+            <h2 class="title is-3">Experiments</h2>
+          
+          <div class="block content has-text-justified">
+            
+              <p></p>
+              <div class="block center-media">
+                
+              </div>
+            
+            
+          </div>
+          
+            <div class="subsections block content has-text-justified">
+              
+                <h3 class="title is-4">Comparison with state-of-the-art</h3>
+                <div class="block content has-text-justified">
+                  
+                  
+                    <p>The proposed method is compared with DeepCAD, CAD-Diffuser, Point2Cyl, and CADSIGNet on the DeepCAD and Fusion360 test sets. A quantitative comparison with these methods is provided in the table below. Across datasets, MiCADangelo achieves superior reconstruction performance.</p>
+                    <div class="block center-media">
+                      
+                        
+                          
+                            <img src="./static/images/comparison_sota.png" alt="Embedded image">
+                          
+                        
+                      
+                    </div>
+                  
+                    <p><center> <b> Quantitative Results on DeepCAD and Fusion360 Datasets. </b> </center></p>
+                    <div class="block center-media">
+                      
+                    </div>
+                  
+                    <p>The figure below provides a qualitative comparison with CADSIGNet. Our method consistently generates CAD models that closely resemble the ground-truth geometry across a diverse range of samples.</p>
+                    <div class="block center-media">
+                      
+                    </div>
+                  
+                    <p></p>
+                    <div class="block center-media">
+                      
+                        
+                          
+                            <img src="./static/images/comparison_qualitative.png" alt="Embedded image">
+                          
+                        
+                      
+                    </div>
+                  
+                    <p><center> <b> Qualitative comparison of our method on DeepCAD and Fusion360. </b> </center></p>
+                    <div class="block center-media">
+                      
+                    </div>
+                  
+                </div>
+              
+                <h3 class="title is-4">Impact of Constraints in 3D Reverse Engineering</h3>
+                <div class="block content has-text-justified">
+                  
+                  
+                    <p>Due to effective application of CAD sketch constraints, edits in our method propagate correctly through sketch primitives, resulting in modified CAD models that retain structural consistency w.r.t the ground-truth. In contrast, coincident constraints alone are insufficient to preserve overall geometry with displacements leading to geometric distortions.</p>
+                    <div class="block center-media">
+                      
+                        
+                          
+                            <img src="./static/images/impact_constraints.png" alt="Embedded image">
+                          
+                        
+                      
+                    </div>
+                  
+                    <p><center> <b> Qualitative comparison of the impact of the constraints by transformations applied on sketch points. </b> </center></p>
+                    <div class="block center-media">
+                      
+                    </div>
+                  
+                </div>
+              
+                <h3 class="title is-4">Additional Experiments</h3>
+                <div class="block content has-text-justified">
+                  
+                  
+                    <p>To evaluate performance on real imperfect scans, we include a comparison on the challenging CC3D dataset that consists of realistic scanning artifacts, such as holes and misoriented normals. The proposed MiCADangelo demonstrates robustness to real-world scans.</p>
+                    <div class="block center-media">
+                      
+                        
+                          
+                            <img src="./static/images/real_world_qualitative.png" alt="Embedded image">
+                          
+                        
+                      
+                    </div>
+                  
+                    <p><center> <b> Qualitative comparison of the performance on the real-world scans from CC3D. </b> </center></p>
+                    <div class="block center-media">
+                      
+                    </div>
+                  
+                </div>
+              
+            </div>
+          
+        </div>
+      </div>
+      <!--/ Section. -->
+
+      <!-- Paper video. -->
+      <!-- <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Video</h2>
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0" frameborder="0"
+              allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Paper video. -->
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Section. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <!-- <h2 class="title is-3">Acknowledgements</h2> -->
+          
+            <h2 class="title is-3">Acknowledgements</h2>
+          
+          <div class="block content has-text-justified">
+            
+              <p>The present work is supported by the National Research Fund (FNR), Luxembourg under the BRIDGES2021/IS/16849599/FREE-3D project and Artec3D.</p>
+              <div class="block center-media">
+                
+                  
+                    
+                      <img src="./static/images/logos.png" alt="Embedded image">
+                    
+                  
+                
+              </div>
+            
+            
+          </div>
+          
+        </div>
+      </div>
+      <!--/ Section. -->
+
+      <!-- Paper video. -->
+      <!-- <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Video</h2>
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0" frameborder="0"
+              allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Paper video. -->
+    </div>
+  </section>
+
+        
+
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <!-- <div class="columns is-centered"> -->
+
+        <!-- Visual Effects. -->
+        <!-- <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Visual Effects</h2>
+            <p>
+              Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
+              would be impossible without nerfies since it would require going through a wall.
+            </p>
+            <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/dollyzoom-stacked.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div> -->
+        <!--/ Visual Effects. -->
+
+        <!-- Matting. -->
+        <!-- <div class="column">
+          <h2 class="title is-3">Matting</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <p>
+                As a byproduct of our method, we can also solve the matting problem by ignoring
+                samples that fall outside of a bounding box during rendering.
+              </p>
+              <video id="matting-video" controls playsinline height="100%">
+                <source src="./static/videos/matting.mp4" type="video/mp4">
+              </video>
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+      <!--/ Matting. -->
+
+      <!-- Animation. -->
+      <!-- <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Animation</h2> -->
+
+          <!-- Interpolating. -->
+          <!-- <h3 class="title is-4">Interpolating states</h3>
+          <div class="content has-text-justified">
+            <p>
+              We can also animate the scene by interpolating the deformation latent codes of two input
+              frames. Use the slider here to linearly interpolate between the left frame and the right
+              frame.
+            </p>
+          </div>
+          <div class="columns is-vcentered interpolation-panel">
+            <div class="column is-3 has-text-centered">
+              <img src="./static/images/interpolate_start.jpg" class="interpolation-image"
+                alt="Interpolate start reference image." />
+              <p>Start Frame</p>
+            </div>
+            <div class="column interpolation-video-column">
+              <div id="interpolation-image-wrapper">
+                Loading...
+              </div>
+              <input class="slider is-fullwidth is-large is-info" id="interpolation-slider" step="1" min="0" max="100"
+                value="0" type="range">
+            </div>
+            <div class="column is-3 has-text-centered">
+              <img src="./static/images/interpolate_end.jpg" class="interpolation-image"
+                alt="Interpolation end reference image." />
+              <p class="is-bold">End Frame</p>
+            </div>
+          </div>
+          <br /> -->
+          <!--/ Interpolating. -->
+
+          <!-- Re-rendering. -->
+          <!-- <h3 class="title is-4">Re-rendering the input video</h3>
+          <div class="content has-text-justified">
+            <p>
+              Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
+              viewpoint such as a stabilized camera by playing back the training deformations.
+            </p>
+          </div>
+          <div class="content has-text-centered">
+            <video id="replay-video" controls muted preload playsinline width="75%">
+              <source src="./static/videos/replay.mp4" type="video/mp4">
+            </video>
+          </div> -->
+          <!--/ Re-rendering. -->
+
+        <!-- </div>
+      </div> -->
+      <!--/ Animation. -->
+
+
+      <!-- Concurrent Work. -->
+      <!-- <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Related Works</h2>
+
+          <div class="content has-text-justified">
+            
+            <p>
+              
+                <a href="https://www.relatedwork1.com">Related Work 1</a>
+              
+                <a href="https://www.relatedwork2.com">Related Work 2</a>
+              
+              This is a body text about the first related work.
+            </p>
+            
+            <p>
+              
+                <a href="https://www.relatedwork3.com">Related Work 3</a>
+              
+                <a href="https://www.relatedwork4.com">Related Work 4</a>
+              
+              This is a body text about the second related work.
+            </p>
+            
+          </div>
+        </div>
+      </div> -->
+      <!--/ Concurrent Work. -->
+
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code><pre>@misc{karadeniz2025MiCADangelofinegrainedreconstructionconstrained,
+  title={MiCADangelo: Fine-Grained Reconstruction of Constrained CAD Models from 3D Scans},
+  author={Ahmet Serdar Karadeniz and Dimitrios Mallis and Danila Rukhovich and Kseniya Cherenkova and Anis Kacem and Djamila Aouada},
+  year={2025},
+  eprint={2510.23429},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2510.23429},
+}</pre></code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        
+          <a class="icon-link" href="https://x.com/CVI2vision">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+          <a class="icon-link" href="https://www.linkedin.com/school/snt-lu/">
+            <i class="fab fa-linkedin"></i>
+          </a>
+        
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              This page is created using the source code of the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> website. Leave the link to the original source code should you decide to reuse it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const keyword = "MiCADangelo";
+            const elements = document.body.querySelectorAll("*:not(script):not(style):not(meta)");
+
+            elements.forEach(element => {
+                if (element.children.length === 0) { // Only process elements without child elements
+                    element.innerHTML = element.innerHTML.replace(
+                      new RegExp(keyword, 'gi'),
+                      `<span class="custom-font">${keyword}</span>`
+                    );
+                }
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>
